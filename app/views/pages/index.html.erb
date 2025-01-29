@@ -1,2 +1,12 @@
-<h1>Principal</h1>
-<%= link_to "Post", posts_path, class: 'btn btn-outline-secondary m-1' %>
+<div class="container text-center my-5">
+  <h1 class="display-4">Bienvenido a Esteban Work</h1>
+  <p class="lead">Explora las postulaciones de empleo creadas por Esteban y encuentra la oportunidad laboral ideal para ti.</p>
+
+  <% if current_user&.role == 'esteban' %>
+    <%= link_to "Crear Oferta", new_post_path, class: 'btn btn-primary btn-lg my-3' %>
+  <% else %>
+    <p class="text-muted">Solo Esteban puede crear nuevas postulaciones.</p>
+  <% end %>
+
+  <%= link_to "Ver Postulaciones", posts_path, class: 'btn btn-outline-secondary btn-lg my-3' %>
+</div>

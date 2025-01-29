@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render @post %>
 
 <div>
@@ -13,16 +11,40 @@
 
 <%= link_to "Back to posts", posts_path, class: 'btn btn-outline-secondary' %>
 
-<h2 class="mt-4">Agregar Postulación</h2>
-<%= form_with(model: [ @post, Postulacion.new ], local: true) do |form| %>
+<%= form_with(model: [@post, Postulacion.new], local: true) do |form| %>
   <div class="mb-3">
     <%= form.label :fecha_postulacion %>
-    <%= form.datetime_local_field :fecha_postulacion, value: Time.now, class: 'form-control' %>
+    <div class="input-group">
+      <%= form.datetime_local_field :fecha_postulacion, 
+            value: Time.now.strftime("%Y-%m-%dT%H:%M"), 
+            class: 'form-control', 
+            step: 60, 
+            min: Time.now.strftime("%Y-%m-%dT%H:%M"), 
+            id: "fecha_postulacion" %>
+      <button type="button" class="btn btn-outline-secondary" id="set-current-time">
+        Usar hora actual
+      </button>
+    </div>
   </div>
   <div class="mb-3">
     <%= form.submit "Postularme", class: 'btn btn-primary' %>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const button = document.getElementById("set-current-time");
+      const input = document.getElementById("fecha_postulacion");
+
+      button.addEventListener("click", () => {
+        const now = new Date();
+        const formatted = now.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:MM
+        input.value = formatted;
+        input.setAttribute("min", formatted); // Actualizar el mínimo permitido dinámicamente
+      });
+    });
+  </script>
 <% end %>
+
 
 
 

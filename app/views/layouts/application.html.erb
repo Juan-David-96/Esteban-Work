@@ -20,6 +20,19 @@
 
   <body>
   <%= render 'layouts/navbar' %>
+
+  <% if notice %>
+    <div class="alert alert-success text-center my-4">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <% if alert %>
+    <div class="alert alert-danger text-center my-4">
+      <%= alert %>
+    </div>
+  <% end %>
+
     <%= yield %>
     <footer class="bg-light text-center py-3">
     <%= link_to image_tag('', alt: 'BASE' ), pages_index_path %>

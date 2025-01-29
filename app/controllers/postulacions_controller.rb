@@ -15,7 +15,7 @@ class PostulacionsController < ApplicationController
     if @postulacion.save
       redirect_to @post, notice: 'Te has postulado exitosamente.'
     else
-      redirect_to @post
+      redirect_to @post, alert: @postulacion.errors.full_messages.to_sentence
     end
   end
 
