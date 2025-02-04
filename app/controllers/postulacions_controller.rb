@@ -2,6 +2,10 @@ class PostulacionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post, only: [:create, :destroy]
 
+  def index
+    @postulacions = current_user.postulacions.includes(:post) 
+    render "postulacion/index"
+  end  
   def new
     @postulacion = Postulacion.new
   end

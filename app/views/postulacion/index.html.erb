@@ -1,0 +1,15 @@
+<h1 class="text-center">Mis Postulaciones</h1>
+<div class="container">
+  <% if @postulacions.any? %>
+    <ul class="list-group">
+      <% @postulacions.each do |postulacion| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <%= link_to postulacion.post.titulo, postulacion.post, class: "fw-bold" %>
+          <span class="text-muted"><%= postulacion.fecha_postulacion.strftime('%d/%m/%Y') %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-center text-muted">Aún no te has postulado a ninguna oferta.</p>
+  <% end %>
+</div>

@@ -14,14 +14,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown me-4">
                     <a class="nav-link dropdown-toggle menu" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">Menú</a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <% if user_signed_in? %>
-                             <li class="nav-item">
-                             <%# 
-                                 <%= link_to 'Tus reacciones', my_reactions_path, class: 'dropdown-item' %>
+                            <li>
+                                <%= link_to "Mis Postulaciones", postulacions_path, class: 'dropdown-item' %>
+                            </li>
+                            <li>
+                                <%= link_to "Mi Perfil", perfil_usuario_path(current_user), class: 'dropdown-item' %>
                             </li>
                             <li>
                                 <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'dropdown-item',

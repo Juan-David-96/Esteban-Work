@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
+  resources :postulacions, only: [:index] 
   resources :posts do
     resources :postulacions, only: [:create, :destroy]
-  end   
+  end
   devise_for :users, controllers: 
   { sessions: 'users/sessions', 
   registrations: 'users/registrations' }
   get "pages/index"
+  get 'perfil/:id', to: 'users#show', as: 'perfil_usuario'
+
   #get "post/new", to: "post#new", as: "new_post"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
