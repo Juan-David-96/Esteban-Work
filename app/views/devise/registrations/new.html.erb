@@ -6,8 +6,7 @@
     <!-- Campo de imagen de perfil -->
     <div class="mb-3">
       <%= f.label :images, "Agrega tu imagen de perfil", class: 'form-label' %>
-      <%= f.file_field :images, class: 'form-control', required: true %>
-
+      <%= f.file_field :images, class: 'form-control' %>
       <% if resource.errors[:images].any? %>
         <div class="invalid-feedback"><%= resource.errors[:images].join(", ") %>
         </div>

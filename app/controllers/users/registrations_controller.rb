@@ -4,59 +4,45 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
-  # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    Rails.logger.debug "Imagen adjunta: #{params[:user][:image].inspect}"
 
-  # POST /resource
-  # def create
-  #   super
-  # end
-
-  # GET /resource/edit
-  # def edit
-  #   super
-  # end
-
-  # PUT /resource
-  # def update
-  #   super
-  # end
-
-  # DELETE /resource
-  # def destroy
-  #   super
-  # end
-
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
-  # def cancel
-  #   super
-  # end
+  
+    # Si hay una nueva imagen, eliminar las anteriores antes de actualizar
+    if params[:user][:image].present?
+      resource.image.purge
+    end
+  
+    # Si se proporciona la contraseña actual, validar que sea correcta
+    if params[:user][:current_password].present?
+      if resource.update_with_password(account_update_params)
+        bypass_sign_in(resource)
+        redirect_to perfil_usuario_path(current_user), notice: "Perfil actualizado correctamente."
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    else
+      # Si no se proporciona la contraseña actual, actualizar sin validarla
+      if resource.update(account_update_params)
+        bypass_sign_in(resource)
+        redirect_to perfil_usuario_path(current_user), notice: "Perfil actualizado correctamente."
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+  end
 
   protected
 
-  # If you have extra params to permit, append them to the sanitizer.
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :images])
-  end
- 
-   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :images])
+    allowed_params = [:name, :email, :password, :password_confirmation, 
+                      :image, :cv, :company_name, :job_title, 
+                      :years_in_position, :years_in_company]
+  
+    allowed_params << :role if current_user&.esteban?
+  
+    devise_parameter_sanitizer.permit(:account_update, keys: allowed_params)
   end
-
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
-
-  # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  
 end
