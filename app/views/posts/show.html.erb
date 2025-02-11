@@ -37,7 +37,10 @@
   <% @post.postulacions.each do |postulacion| %>
     <% if current_user.esteban? || current_user == postulacion.user %>
       <li class="list-group-item">
-        <strong><%= postulacion.user.name %></strong> - <%= postulacion.fecha_postulacion.strftime('%d/%m/%Y') %>       
+        <%= link_to perfil_usuario_path(postulacion.user), style: "text-decoration: none; color: inherit;" do %>
+          <strong><%= postulacion.user.name %></strong>
+        <% end %> - <%= postulacion.fecha_postulacion.strftime('%d/%m/%Y') %>
+
         <% if current_user.esteban? || current_user == postulacion.user %>
           <%= button_to "Eliminar", [postulacion.post, postulacion], method: :delete, 
                 data: { confirm: "¿Estás seguro de que deseas eliminar esta postulación?" }, 
