@@ -76,4 +76,4 @@ Si deseas contribuir, por favor sigue estos pasos:
 5. Abre un **Pull Request**.
 
 ## Contacto
-Si tienes dudas o sugerencias, puedes contactar a **[Tu Nombre o Email]**.
+Si tienes dudas o sugerencias, puedes contactar.
